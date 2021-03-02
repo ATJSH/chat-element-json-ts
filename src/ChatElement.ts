@@ -37,7 +37,7 @@ export function renderChatElement(chatElement: ChatElement): Record<string, any>
 
 /**
  * unknownObject의 타입에 따라서 unknownObject를 그대로 리턴하거나 renderChatElement()에 넣은 후 리턴값을 리턴함.
- * @param unknownObject - 렌더링해야 하는 오브젝트. 
+ * @param unknownObject - 렌더링해야 하는 오브젝트.
  */
 function renderUnknownObject(unknownObject: any): Record<string, any> {
   if (unknownObject instanceof ChatElement) {
