@@ -1,1 +1,1 @@
-export { ChatElement, renderChatElement } from './ChatElement';
+export * from './ChatElement';
