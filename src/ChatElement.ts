@@ -7,12 +7,10 @@ interface JSONArray extends Array<JSONValue> {}
 
 /**
  * Kakao i 오픈빌더 챗봇 응답 데이터를 만들 때 사용할 수 있는, 응답 데이터의 요소.
- * @param {string} name - 챗봇 응답을 만들 때 응답 데이터에 명시되는 요소의 이름. 인스턴스를 만들 때 Kakao i 오픈빌더에 정의된 이름을 그대로 명시해야 함. 예) 'basicCard', 'button' 등
+ * @param {string} name - 챗봇 응답을 만들 때 응답 데이터에 명시되는 요소의 이름.
  * @param {ElementPropsType} props - 챗봇 응답으로 노출할 응답 데이터. 기본적으로 Record<string, PropValue> 타입임. 렌더링 작업을 통해 오픈빌더 응답에 사용할 수 있는 순수 JSON 데이터를 생성함.
  * 해당 props는 제네릭 타입 ElementPropsType을 총족해야 함.
- * @typedef {ElementPropsType} ElementPropsType - props의 interface, 즉 챗봇 응답으로 노출할 데이터의 구조. 해당 interface는 Kakao i 오픈빌더에 정의된 엘리먼트별 상세 필드 구조를 그대로 구현해야 함.
- *
- * 해당 ChatElement 클래스는 React 라이브러리 (https://github.com/facebook/react)의 'ReactElement' 구현 구조 일부를 참고하여 작성하였음.
+ * @typedef {ElementPropsType} ElementPropsType - props의 interface, 즉 챗봇 응답으로 노출할 데이터의 구조. 해당 interface는 챗봇 응답 JSON 스펙을 그대로 구현해야 함.
  */
 export class ChatElement<ElementPropsType = object> {
   constructor(public name: string, public props: ElementPropsType) {}
@@ -37,6 +35,10 @@ export function renderChatElement(chatElement: ChatElement): Record<string, any>
   });
 }
 
+/**
+ * unknownObject의 타입에 따라서 unknownObject를 그대로 리턴하거나 renderChatElement()에 넣은 후 리턴값을 리턴함.
+ * @param unknownObject - 렌더링해야 하는 오브젝트. 
+ */
 function renderUnknownObject(unknownObject: any): Record<string, any> {
   if (unknownObject instanceof ChatElement) {
     return renderChatElement(unknownObject);
