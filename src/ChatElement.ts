@@ -21,7 +21,7 @@ export class ChatElement<ElementPropsType extends Record<any, any> = object> {
   }
 
   render() {
-    return JSON.parse(JSON.stringify(this))
+    return JSON.parse(JSON.stringify(this));
   }
 }
 
