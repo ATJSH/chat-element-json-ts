@@ -12,52 +12,17 @@ interface JSONArray extends Array<JSONValue> {}
  * 해당 props는 제네릭 타입 ElementPropsType을 총족해야 함.
  * @typedef {ElementPropsType} ElementPropsType - props의 interface, 즉 챗봇 응답으로 노출할 데이터의 구조. 해당 interface는 챗봇 응답 JSON 스펙을 그대로 구현해야 함.
  */
-export class ChatElement<ElementPropsType = object> {
+export class ChatElement<ElementPropsType extends Record<any, any> = object> {
   constructor(public name: string, public props: ElementPropsType) {}
-}
 
-/**
- * Map 형식인 ChatElement.props의 Value에 할당 가능한 타입들.
- */
-type PropValue = ChatElement | ChatElement[] | number | string | number | boolean | JSONObject;
-
-/** chatElement의 props를 사용하여 챗봇 응답에 사용 가능한 순수 JSON 데이터를 생성함 */
-export function renderChatElement(chatElement: ChatElement): Record<string, any> {
-  return _.mapValues(chatElement.props, (propValue: PropValue) => {
-    if (propValue instanceof ChatElement) {
-      return renderChatElement(propValue);
-    } else if (Array.isArray(propValue)) {
-      return renderUnknownObject(propValue);
-    } else if (typeof propValue === 'object') {
-      return renderUnknownObject(propValue);
-    }
-    return propValue;
-  });
-}
-
-/**
- * unknownObject의 타입에 따라서 unknownObject를 그대로 리턴하거나 renderChatElement()에 넣은 후 리턴값을 리턴함.
- * @param unknownObject - 렌더링해야 하는 오브젝트.
- */
-function renderUnknownObject(unknownObject: any): Record<string, any> {
-  if (unknownObject instanceof ChatElement) {
-    return renderChatElement(unknownObject);
-  } else if (Array.isArray(unknownObject)) {
-    return unknownObject.map((unknownObjectValue) => {
-      if (unknownObjectValue instanceof ChatElement) {
-        return renderChatElement(unknownObjectValue);
-      }
-      if (typeof unknownObjectValue === 'object') {
-        return renderUnknownObject(unknownObjectValue);
-      } else {
-        return unknownObjectValue;
-      }
-    });
-  } else if (typeof unknownObject === 'object') {
-    return _.mapValues(unknownObject, (unknownObjectValue) => {
-      return renderUnknownObject(unknownObjectValue);
-    });
+  /** chatElement의 props를 사용하여 챗봇 응답에 사용 가능한 순수 JSON 데이터를 생성함 */
+  toJSON() {
+    return _.pickBy(this.props, _.identity);
   }
+}
 
-  return unknownObject;
+export function renderChatElement(chatElement: ChatElement) {
+  return {
+    [chatElement.name]: chatElement.toJSON()
+  }
 }

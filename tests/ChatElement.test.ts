@@ -52,9 +52,11 @@ describe('ChatElement 컴포넌트 테스트', () => {
     const renderedMyButton = renderChatElement(myButton);
 
     expect(renderedMyButton).toEqual({
-      label: 'myButton',
-      action: 'message',
-      messageText: 'Hello world!',
+      "button": {
+        label: 'myButton',
+        action: 'message',
+        messageText: 'Hello world!',
+      }
     });
   });
 });
