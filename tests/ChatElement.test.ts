@@ -1,4 +1,4 @@
-import { ChatElement, renderChatElement } from '../src/index';
+import { ChatElement } from '../src/index';
 
 describe('ChatElement 컴포넌트 테스트', () => {
   it('컴포넌트 함수와 컴포넌트 타입 정의', () => {
