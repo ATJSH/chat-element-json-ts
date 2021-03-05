@@ -23,6 +23,6 @@ export class ChatElement<ElementPropsType extends Record<any, any> = object> {
 
 export function renderChatElement(chatElement: ChatElement) {
   return {
-    [chatElement.name]: chatElement.toJSON()
-  }
+    [chatElement.name]: chatElement.toJSON(),
+  };
 }
