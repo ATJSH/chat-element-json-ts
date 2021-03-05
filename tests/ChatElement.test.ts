@@ -44,19 +44,53 @@ describe('ChatElement 컴포넌트 테스트', () => {
       });
     }
 
+    interface BasicCardElementPropsType {
+      title?: string;
+      description?: string;
+      buttons?: ButtonType[];
+    }
+
+    type BasicCardType = ChatElement<BasicCardElementPropsType>;
+
+    interface BasicCardParameter {
+      title?: string;
+      description?: string;
+      buttons?: ButtonType[];
+    }
+
+    function BasicCard({ title, description, buttons }: BasicCardParameter): BasicCardType {
+      return new ChatElement('basicCard', {
+        title,
+        description,
+        buttons,
+      });
+    }
+
     const myButton: ButtonType = Button({
       label: 'myButton',
       action: 'message',
       messageText: 'Hello world!',
     });
-    const renderedMyButton = renderChatElement(myButton);
 
-    expect(renderedMyButton).toEqual({
-      "button": {
-        label: 'myButton',
-        action: 'message',
-        messageText: 'Hello world!',
-      }
+    const myBasicCard: BasicCardType = BasicCard({
+      title: 'hello',
+      description: 'world',
+      buttons: [
+        myButton
+      ]
+    })
+
+    expect(myBasicCard.render()).toEqual({
+      title: 'hello',
+      description: 'world',
+      buttons: [
+        {
+          label: 'myButton',
+          action: 'message',
+          messageText: 'Hello world!',
+        }
+      ]
     });
+    
   });
 });

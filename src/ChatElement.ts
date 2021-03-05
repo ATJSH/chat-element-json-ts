@@ -19,6 +19,10 @@ export class ChatElement<ElementPropsType extends Record<any, any> = object> {
   toJSON() {
     return _.pickBy(this.props, _.identity);
   }
+
+  render() {
+    return JSON.parse(JSON.stringify(this))
+  }
 }
 
 export function renderChatElement(chatElement: ChatElement) {
