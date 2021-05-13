@@ -12,7 +12,9 @@ describe('ChatElement 컴포넌트 테스트', () => {
       extra?: Record<string, any>;
     }
 
-    type ButtonType = ChatElement<ButtonElementPropsType>;
+    const ButtonChatElementName = 'button';
+
+    type ButtonType = ChatElement<typeof ButtonChatElementName, ButtonElementPropsType>;
 
     interface ButtonParameter {
       label: string;
@@ -33,7 +35,7 @@ describe('ChatElement 컴포넌트 테스트', () => {
       phoneNumber,
       extra,
     }: ButtonParameter): ButtonType {
-      return new ChatElement('button', {
+      return new ChatElement(ButtonChatElementName, {
         label,
         action,
         webLinkUrl,
@@ -49,8 +51,9 @@ describe('ChatElement 컴포넌트 테스트', () => {
       description?: string;
       buttons?: ButtonType[];
     }
+    const BasicCardChatElementName = 'basicCard';
 
-    type BasicCardType = ChatElement<BasicCardElementPropsType>;
+    type BasicCardType = ChatElement<typeof BasicCardChatElementName, BasicCardElementPropsType>;
 
     interface BasicCardParameter {
       title?: string;
@@ -59,7 +62,7 @@ describe('ChatElement 컴포넌트 테스트', () => {
     }
 
     function BasicCard({ title, description, buttons }: BasicCardParameter): BasicCardType {
-      return new ChatElement('basicCard', {
+      return new ChatElement(BasicCardChatElementName, {
         title,
         description,
         buttons,
@@ -75,10 +78,8 @@ describe('ChatElement 컴포넌트 테스트', () => {
     const myBasicCard: BasicCardType = BasicCard({
       title: 'hello',
       description: 'world',
-      buttons: [
-        myButton
-      ]
-    })
+      buttons: [myButton],
+    });
 
     expect(myBasicCard.render()).toEqual({
       title: 'hello',
@@ -88,9 +89,8 @@ describe('ChatElement 컴포넌트 테스트', () => {
           label: 'myButton',
           action: 'message',
           messageText: 'Hello world!',
-        }
-      ]
+        },
+      ],
     });
-    
   });
 });

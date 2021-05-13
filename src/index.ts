@@ -1,1 +1,1 @@
-export * from './ChatElement';
+export * from './chat-element';
